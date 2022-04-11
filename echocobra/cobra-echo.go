@@ -119,7 +119,41 @@ using cobra, which is a very famous library to build command line interface tool
 	rootCmd.Execute()
 }
 
+func GlobalCommand() {
+	var namespace string
+	rootCmd := cobra.Command{
+		Use: "kubectl",
+	}
+	// 添加全局的选项，所有的子命令都可以继承
+	rootCmd.PersistentFlags().StringVarP(&namespace, "namespace", "n", "", "If present, the namespace scope for this CLI request")
+
+	// 一级子命令 get
+	var outputFormat string
+	var labelSelector string
+	getCmd := cobra.Command{
+		Use: "get",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Print flags...")
+			fmt.Printf("Flags: namespace=[%s], selector=[%s], output=[%s]\n", namespace, labelSelector, outputFormat)
+			fmt.Println("Print args...")
+			for _, arg := range args {
+				fmt.Println("Arg:", arg)
+			}
+		},
+	}
+	// 添加命令选项，这些选项仅 get 命令可用
+	getCmd.Flags().StringVarP(&outputFormat, "output", "o", "", "Output format")
+	getCmd.Flags().StringVarP(&labelSelector, "selector", "l", "", "Selector (label query) to filter on")
+
+	// 组装命令
+	rootCmd.AddCommand(&getCmd)
+
+	// 执行命令
+	rootCmd.Execute()
+}
+
 func main() {
 	// DemoCommand()
-	SubCommand()
+	// SubCommand()
+	GlobalCommand()
 }
