@@ -3,6 +3,17 @@
   <component name="LeetcodeEditor">
     <option name="projectConfig">
       <map>
+        <entry key="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[1466]重新规划路线.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/doc/content/[1466]重新规划路线.md" />
+              <option name="frontendQuestionId" value="leetcode-cn.com1466" />
+              <option name="host" value="leetcode-cn.com" />
+              <option name="path" value="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[1466]重新规划路线.go" />
+              <option name="titleSlug" value="reorder-routes-to-make-all-paths-lead-to-the-city-zero" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[1]两数之和.go">
           <value>
             <LeetcodeEditor>
@@ -22,6 +33,17 @@
               <option name="host" value="leetcode-cn.com" />
               <option name="path" value="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[2]两数相加.go" />
               <option name="titleSlug" value="add-two-numbers" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[806]写字符串需要的行数.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/doc/content/[806]写字符串需要的行数.md" />
+              <option name="frontendQuestionId" value="leetcode-cn.com806" />
+              <option name="host" value="leetcode-cn.com" />
+              <option name="path" value="$PROJECT_DIR$/../../leetcode/leetcode/editor/cn/[806]写字符串需要的行数.go" />
+              <option name="titleSlug" value="number-of-lines-to-write-string" />
             </LeetcodeEditor>
           </value>
         </entry>
