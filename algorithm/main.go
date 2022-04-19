@@ -1,13 +1,37 @@
 package main
 
+import "fmt"
+
 func main() {
-//	todo
+	//	todo
+	a := ListNode{
+		Val: 1,
+		Next: &ListNode{
+			Val: 2,
+			Next: &ListNode{
+				Val:  3,
+				Next: nil,
+			},
+		},
+	}
+	b := reverseList(&a)
+	fmt.Printf("%+v", b)
 }
 
-
 type ListNode struct {
-	Val int
+	Val  int
 	Next *ListNode
+}
+
+func reverseList(head *ListNode) *ListNode {
+	var prev *ListNode
+	for head != nil {
+		next := head.Next
+		head.Next = prev
+		prev = head
+		head = next
+	}
+	return prev
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
