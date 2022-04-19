@@ -24,14 +24,14 @@ type ListNode struct {
 }
 
 func reverseList(head *ListNode) *ListNode {
-	var prev *ListNode
+	var pre *ListNode
 	for head != nil {
 		next := head.Next
-		head.Next = prev
-		prev = head
+		head.Next = pre
+		pre = head
 		head = next
 	}
-	return prev
+	return pre
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
