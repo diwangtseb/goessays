@@ -21,7 +21,7 @@ func SingleFlightExample() {
 		})
 		return value.(string), err
 	}
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		go func(i int) {
 			key := "key"
 			_, err := gsKey(i, key)
