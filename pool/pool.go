@@ -5,8 +5,11 @@ import (
 )
 
 type Book struct {
-	ID   string `json:"id"`
-	Nmae string `json:"name"`
+	ID     string `json:"id"`
+	Nmae   string `json:"name"`
+	Page   int    `json:"page"`
+	Author string `json:"author"`
+	Price  int    `json:"price"`
 }
 
 var bookPool = sync.Pool{
