@@ -7,7 +7,7 @@ import (
 	_ "unsafe"
 )
 
-//go:linkname nanotime1 runtime.nanotime1
+//go:linkname nanotime1 runtime.nanotime
 func nanotime1() int64
 func main() {
 
