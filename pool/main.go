@@ -26,7 +26,7 @@ func main() {
 		stock := stockPool.Get().(*Stock)
 		stock.Symbol = "GOOG"
 		stock.Price = i
-		stockPool.Put(stock)
+		// stockPool.Put(stock)
 		stocks = append(stocks, stock)
 	}
 	fmt.Printf("%v", stocks)
