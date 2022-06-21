@@ -6,3 +6,4 @@ oh no ahhh
 A little tired
 Some of them are like a douche bag
 now Performance tuning
+Write the code
