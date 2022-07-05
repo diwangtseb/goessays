@@ -7,14 +7,3 @@ A little tired
 Some of them are like a douche bag
 now Performance tuning
 Write the code
-oh no
-biiii
-cc
-a
-b
-c
-d
-e
-f
-g
-h
