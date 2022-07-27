@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 
 	"golang.org/x/sync/errgroup"
@@ -17,5 +16,6 @@ func main() {
 }
 
 func gError() error {
-	return errors.New("gError")
+	fmt.Println("run here")
+	return nil
 }
