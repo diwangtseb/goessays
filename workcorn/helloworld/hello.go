@@ -11,4 +11,5 @@ func Hello() {
 	c.AddFunc("* * * * *", func() { fmt.Println("every minutes") })
 	c.Start()
 	// c.Stop() // Stop the scheduler (does not stop any jobs already running).
+	fmt.Println("Hello, world!")
 }
