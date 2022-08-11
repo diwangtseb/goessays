@@ -58,7 +58,7 @@ func main() {
 		case <-done:
 			return
 		case <-ticker.C:
-			err := c.WriteMessage(websocket.TextMessage, []byte("滚蛋"))
+			err := c.WriteMessage(websocket.BinaryMessage, []byte("滚蛋"))
 			if err != nil {
 				log.Println("write:", err)
 				return
