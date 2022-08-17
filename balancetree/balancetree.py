@@ -10,8 +10,7 @@ class TreeNode:
     def __str__(self) -> str:
         return str(self.val)
 
-
-def to_binary_tree(items:list[int])-> TreeNode:
+def to_binary_tree(items)->TreeNode:
     n = len(items)
     if n == 0 :
         return None
