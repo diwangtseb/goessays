@@ -8,7 +8,7 @@ import (
 
 func main() {
 	a := map[string]string{"a": "1"}
-	b := map[string]string{"a": "1"}
+	b := map[string]string{"a": "2"}
 	r := diff.ObjectDiff(a, b)
 	fmt.Println(r)
 }
