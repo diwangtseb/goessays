@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+type Zoo[T any] struct {
+	Animals []*T
+}
+
+func (z *Zoo[T]) Run() {
+	for _, a := range z.Animals {
+		fmt.Println(a, "is ok!")
+	}
+}
+
 func Run[Any string](a Any) {
 	fmt.Println(a)
 }
@@ -30,4 +40,12 @@ func main() {
 	Arun(Dog{
 		Name: "saner",
 	})
+	z := Zoo[Dog]{}
+	z.Animals = append(z.Animals, &Dog{
+		Name: "x3",
+	})
+	z.Animals = append(z.Animals, &Dog{
+		Name: "x4",
+	})
+	z.Run()
 }
