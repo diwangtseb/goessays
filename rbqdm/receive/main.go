@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -27,7 +28,7 @@ func main() {
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		true,   // auto-ack
+		false,  // auto-ack
 		false,  // exclusive
 		false,  // no-local
 		false,  // no-wait
@@ -37,13 +38,22 @@ func main() {
 
 	var forever chan struct{}
 
-	go func() {
+	msgHandle := func() {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Printf("panic is %v", err)
+			}
+		}()
+
 		for d := range msgs {
 			handleMsg(d, handleMsgFunc(func(delivery amqp.Delivery) error {
-				log.Println(string(delivery.Body))
+				log.Println("func1...")
 				return nil
 			}))
 		}
+	}
+	go func() {
+		msgHandle()
 	}()
 
 	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
@@ -60,12 +70,17 @@ type handleMsgFunc func(delivery amqp.Delivery) error
 
 func (h handleMsgFunc) handle(delivery amqp.Delivery) {
 	log.Println("start")
-	h(delivery)
+	err := h(delivery)
+	if err != nil {
+		panic(fmt.Sprintf("msg error %s", err.Error()))
+	}
+	err = delivery.Ack(true)
+	if err != nil {
+		panic(fmt.Sprintf("msg error %s", err.Error()))
+	}
 	log.Println("end")
 }
 
-func handleMsg(d amqp.Delivery, hmf ...handleMsgFunc) {
-	for _, h := range hmf {
-		h.handle(d)
-	}
+func handleMsg(d amqp.Delivery, hmf handleMsgFunc) {
+	hmf.handle(d)
 }
