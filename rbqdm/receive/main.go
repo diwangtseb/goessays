@@ -49,6 +49,9 @@ func main() {
 			handleMsg(d, handleMsgFunc(func(delivery amqp.Delivery) error {
 				log.Println("func1...")
 				return nil
+			}), handleMsgFunc(func(delivery amqp.Delivery) error {
+				log.Println("func1...")
+				return nil
 			}))
 		}
 	}
@@ -81,6 +84,8 @@ func (h handleMsgFunc) handle(delivery amqp.Delivery) {
 	log.Println("end")
 }
 
-func handleMsg(d amqp.Delivery, hmf handleMsgFunc) {
-	hmf.handle(d)
+func handleMsg(d amqp.Delivery, hmf ...handleMsgFunc) {
+	for _, h := range hmf {
+		h.handle(d)
+	}
 }
