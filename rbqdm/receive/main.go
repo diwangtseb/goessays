@@ -77,15 +77,15 @@ func (h handleMsgFunc) handle(delivery amqp.Delivery) {
 	if err != nil {
 		panic(fmt.Sprintf("msg error %s", err.Error()))
 	}
-	err = delivery.Ack(true)
-	if err != nil {
-		panic(fmt.Sprintf("msg error %s", err.Error()))
-	}
 	log.Println("end")
 }
 
 func handleMsg(d amqp.Delivery, hmf ...handleMsgFunc) {
 	for _, h := range hmf {
 		h.handle(d)
+	}
+	err := d.Ack(true)
+	if err != nil {
+		panic(fmt.Sprintf("msg error %s", err.Error()))
 	}
 }
