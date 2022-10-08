@@ -15,13 +15,14 @@ func main() {
 		"k5": "v",
 		"k6": "v",
 	}
-	for i := 0; i < 10000; i++ {
-		go func(x int) {
-			updateMap(m)
-			fmt.Println(x)
-		}(i)
+	for i := 0; i < 100; i++ {
+		go func() {
+			m["k"] = "ooo"
+			m = updateMap(m)
+		}()
 	}
-	time.Sleep(20 * time.Second)
+	fmt.Println(m)
+	time.Sleep(2 * time.Second)
 }
 
 func updateMap(src map[string]string) map[string]string {
