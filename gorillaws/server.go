@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,7 +16,11 @@ import (
 
 var addr = flag.String("addr", "localhost.proxyman.io:8080", "http service address")
 
-var upgrader = websocket.Upgrader{} // use default options
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+} // use default options
 
 func echo(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
@@ -40,6 +45,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
+	host := "ws://" + r.Host + "/echo"
+	fmt.Println(host)
 	homeTemplate.Execute(w, "ws://"+r.Host+"/echo")
 }
 
@@ -48,6 +55,7 @@ func main() {
 	log.SetFlags(0)
 	http.HandleFunc("/echo", echo)
 	http.HandleFunc("/", home)
+	fmt.Println(*addr)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 
