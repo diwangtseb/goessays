@@ -12,6 +12,8 @@ func main() {
 		fallthrough
 	case false:
 		fmt.Println("3")
+	case true:
+		fmt.Println("4")
 	default:
 		fmt.Println("luck")
 	}
