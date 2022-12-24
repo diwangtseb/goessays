@@ -37,6 +37,10 @@ type Account struct {
 	amount float64
 }
 
+func (a *Account) isyValidAccount(accountName string) bool {
+	return a.name == accountName
+}
+
 type MoneTrayActor struct {
 	bankAccount    *Account
 	allUserAccount *Account
@@ -61,7 +65,7 @@ func NewMoneTrayActor(bankAccountName string) *MoneTrayActor {
 
 // RollTrans implements MoneTaryTransfer
 func (mta *MoneTrayActor) RollTrans(ctx context.Context, fromAccount string, toAcccount string, ammount float64) error {
-	if toAcccount != mta.bankAccount.name {
+	if !mta.bankAccount.isyValidAccount(toAcccount) {
 		toAcccount = mta.bankAccount.name
 	}
 	fmt.Println(fromAccount, "-->", toAcccount, ammount)
@@ -74,7 +78,7 @@ func (mta *MoneTrayActor) RollTrans(ctx context.Context, fromAccount string, toA
 
 // TryTrans implements MoneTaryTransfer
 func (mta *MoneTrayActor) TryTrans(ctx context.Context, fromAccount string, toAcccount string, amount float64) error {
-	if fromAccount != mta.bankAccount.name {
+	if !mta.bankAccount.isyValidAccount(fromAccount) {
 		fromAccount = mta.bankAccount.name
 	}
 	fmt.Println(fromAccount, "-->", toAcccount, amount)
