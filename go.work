@@ -3,4 +3,6 @@ go 1.19
 use (
     ./design-pattern
     ./progress-bar
+    ./gapi
+    ./limiter
     )
