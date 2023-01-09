@@ -3,15 +3,19 @@ package main
 import "fmt"
 
 func main() {
-	func() {
-		c := make(chan *Mem, 1)
-		// go func() {
-		c <- &Mem{
-			id: "1",
-		}
-		// }()
-		getCh(c)
-	}()
+	for i := 0; i < 10; i++ {
+		go func() {
+			c := make(chan *Mem, 10)
+			defer close(c)
+			// go func() {
+			c <- &Mem{
+				id: "1",
+			}
+			// }()
+			getCh(c)
+		}()
+	}
+	select {}
 }
 
 type Mem struct {
