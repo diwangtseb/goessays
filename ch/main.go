@@ -1,16 +1,24 @@
 package main
 
-import "time"
+import "fmt"
 
 func main() {
-	a := make(chan struct{})
-	go func() {
-		time.Sleep(time.Second * 1)
-		close(a)
+	func() {
+		c := make(chan *Mem, 1)
+		// go func() {
+		c <- &Mem{
+			id: "1",
+		}
+		// }()
+		getCh(c)
 	}()
-	go func() {
-		time.Sleep(time.Second * 2)
-		a <- struct{}{}
-	}()
-	time.Sleep(time.Second * 3)
+}
+
+type Mem struct {
+	id string
+}
+
+func getCh(c <-chan *Mem) {
+	v := <-c
+	fmt.Println(v)
 }
