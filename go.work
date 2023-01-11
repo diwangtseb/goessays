@@ -5,4 +5,6 @@ use (
     ./progress-bar
     ./gapi
     ./limiter
+    ./websocketdemo/wsbinary
+    ./websocketdemo/websocket
     )
