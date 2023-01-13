@@ -76,12 +76,11 @@ type demoHook struct{}
 func (dh *demoHook) ProcessHook(hook ProcessHook) ProcessHook {
 	return func() {
 		fmt.Println("hook start")
-		hook()
 		defer func() {
 			fmt.Println("hook end")
 		}()
 
-		//todo: exec
+		hook()
 	}
 }
 
