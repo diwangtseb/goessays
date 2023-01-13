@@ -41,6 +41,7 @@ func NewClient() *client {
 func main() {
 	c := NewClient()
 	c.AddHook(&demoHook{})
+	c.AddHook(&anotherHook{})
 	c.Start()
 	c.Stop()
 }
@@ -85,3 +86,19 @@ func (dh *demoHook) ProcessHook(hook ProcessHook) ProcessHook {
 }
 
 var _ Hook = (*demoHook)(nil)
+
+type anotherHook struct{}
+
+// ProcessHook implements Hook
+func (*anotherHook) ProcessHook(hook ProcessHook) ProcessHook {
+	return func() {
+		fmt.Println("another hook start")
+		defer func() {
+			fmt.Println("another hook end")
+		}()
+
+		hook()
+	}
+}
+
+var _ Hook = (*anotherHook)(nil)
