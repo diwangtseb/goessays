@@ -11,7 +11,6 @@ import (
 	"github.com/google/wire"
 )
 
-func initialize(ctx context.Context) Baz {
-	wire.Build(SuperSet)
-	return Baz{}
+func initialize(ctx context.Context) (MyFooer, func()) {
+	panic(wire.Build(SuperSet))
 }

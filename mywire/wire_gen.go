@@ -8,13 +8,34 @@ package main
 
 import (
 	"context"
+	"os"
 )
 
 // Injectors from wire.go:
 
-func initialize(ctx context.Context) Baz {
+func initialize(ctx context.Context) (MyFooer, func()) {
 	bar := NewBar()
 	foo := NewFoo()
 	baz := NewBaz(bar, foo)
-	return baz
+	int2 := NewB()
+	fooCase := &FooCase{
+		B: int2,
+	}
+	valueFooCase := _wireValueFooCaseValue
+	fooer := _wireMyFooerValue
+	reader := _wireFileValue
+	string2 := NewA()
+	myFooer, cleanup := NewMyfoo(baz, fooCase, valueFooCase, fooer, reader, string2)
+	return myFooer, func() {
+		cleanup()
+	}
 }
+
+var (
+	_wireValueFooCaseValue = &ValueFooCase{
+		A: "ooooo",
+		B: 0,
+	}
+	_wireMyFooerValue = new(MyFooer)
+	_wireFileValue    = os.Stdin
+)
