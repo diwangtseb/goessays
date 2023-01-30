@@ -8,4 +8,5 @@ use (
 	./websocketdemo/wsbinary
 	./websocketdemo/websocket
 	./mywire
+	./monetary-system
 )
