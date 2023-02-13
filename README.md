@@ -2,7 +2,7 @@
 - [x] for concurrent detection, go xx-race is a good choice. hh
 - [x] effective validation is important
 - [x] expect very important
-- [x] f1
+- [x] f1 
 - [x] f2
 - [x] f3
 - [x] f4
@@ -44,3 +44,8 @@
 - [x] f40
 - [x] f41
 - [x] f42
+- [x] f43
+- [x] f44
+- [x] f45
+- [x] f46
+- [x] f47
