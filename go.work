@@ -5,9 +5,11 @@ use (
 	./gapi
 	./limiter
 	./monetary-system
+	./myrpc
 	./mywire
 	./progress-bar
 	./sgrpc
+	./srpc
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
 )

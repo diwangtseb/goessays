@@ -1,3 +1,4 @@
 {
-    "Codegeex.EnableExtension": false
+    "Codegeex.EnableExtension": false,
+    "commentTranslate.targetLanguage": "zh-CN"
 }
