@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func QuicklySort(in []int) []int {
@@ -38,9 +39,38 @@ func BubbleSort(in []int) []int {
 
 func main() {
 	// quicklysort
-	arr := []int{1, 9, 10, 30, 2, 5, 45, 8, 63, 234, 12}
-	fmt.Println(QuicklySort(arr))
-	// bubblesort
-	arrbubble := []int{1, 9, 10, 30, 2, 5, 45, 8, 63, 234, 12}
-	fmt.Println(BubbleSort(arrbubble))
+	//arr := []int{1, 9, 10, 30, 2, 5, 45, 8, 63, 234, 12}
+	//fmt.Println(QuicklySort(arr))
+	//// bubblesort
+	//arrbubble := []int{1, 9, 10, 30, 2, 5, 45, 8, 63, 234, 12}
+	//fmt.Println(BubbleSort(arrbubble))
+	someMap := map[string]int{
+		"0": 10,
+		"1": 9,
+		"2": 8,
+		"3": 1,
+		"4": 1,
+	}
+	keys := []string{}
+	for k := range someMap {
+		keys = append(keys, k)
+	}
+	slice := make([]struct {
+		Key   string
+		Count int
+	}, 0)
+	sort.Strings(keys)
+	for _, v := range keys {
+		slice = append(slice, struct {
+			Key   string
+			Count int
+		}{
+			Key:   v,
+			Count: someMap[v],
+		})
+	}
+	for k, v := range slice {
+		fmt.Println(k, v)
+	}
+
 }
