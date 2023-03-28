@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"runtime"
+	"time"
 )
 
 func main() {
@@ -10,7 +12,19 @@ func main() {
 	}
 	go produer()
 	go distribute()
+	go routineNum()
 	select {}
+}
+
+func routineNum() {
+	ticker := time.NewTicker(time.Second * 1)
+	for {
+		select {
+		case <-ticker.C:
+			rnum := runtime.NumGoroutine()
+			fmt.Println(rnum)
+		}
+	}
 }
 
 type Msg struct {
@@ -21,7 +35,7 @@ type Msg struct {
 var fanInCh chan chan *Msg
 
 func produer() {
-	for i := 0; i < 100; i++ {
+	for i := 0; i < 1000000; i++ {
 		msgCh := make(chan *Msg, 1)
 		msgCh <- &Msg{
 			req: i,
