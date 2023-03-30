@@ -12,4 +12,5 @@ use (
 	./srpc
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
+	./stream
 )
