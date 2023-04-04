@@ -8,9 +8,10 @@ use (
 	./myrpc
 	./mywire
 	./progress-bar
+	./rule
 	./sgrpc
 	./srpc
+	./stream
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
-	./stream
 )
