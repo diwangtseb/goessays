@@ -20,7 +20,11 @@ func main() {
 			fmt.Println(args)
 			if args[0].(int) == 100 {
 				fmt.Println("-------------------------", i)
-				time.Sleep(time.Second * 2)
+				f := func(ctx context.Context) {
+					time.Sleep(time.Second * 2)
+					fmt.Println(ctx.Err())
+				}
+				f(ctx)
 			}
 			count.Add(1)
 		}, ctx, i, count)
