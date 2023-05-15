@@ -8,11 +8,12 @@ use (
 	./myrpc
 	./mywire
 	./progress-bar
+	./questions
 	./rule
 	./sgrpc
 	./srpc
+	./statusmachine
 	./stream
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
-	./questions
 )
