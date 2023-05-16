@@ -1,6 +1,7 @@
 go 1.19
 
 use (
+	./concurrency
 	./design-pattern
 	./gapi
 	./limiter
