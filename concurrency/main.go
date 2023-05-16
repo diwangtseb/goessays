@@ -15,13 +15,13 @@ func main() {
 		work := NewWorker(mgr.get, mgr.set, pipe)
 		switch v {
 		case 1:
-			work.dosomthing("拖地")
+			go work.dosomthing("拖地")
 		case 2:
-			work.dosomthing("洗衣")
+			go work.dosomthing("洗衣")
 		case 3:
-			work.dosomthing("做饭")
+			go work.dosomthing("做饭")
 		case 4:
-			work.dosomthing("打杂")
+			go work.dosomthing("打杂")
 		}
 	}
 	for {
@@ -31,9 +31,9 @@ func main() {
 				fmt.Printf("k:%s v:%v \n", k, v.Object)
 			}
 		default:
-			if len(pipe) <= 0 {
-				return
-			}
+			// if len(pipe) <= 0 {
+			// 	return
+			// }
 			time.Sleep(time.Microsecond * 10)
 		}
 	}
