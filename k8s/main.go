@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 
+	"os"
+
 	"golang.org/x/net/context"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -11,7 +13,7 @@ import (
 
 func main() {
 	// 获取 kubeconfig 文件路径
-	kubeconfig := "/path"
+	kubeconfig := os.Getenv("KUBE_CONFIG")
 
 	// 使用 kubeconfig 创建一个 Config 对象
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
@@ -25,7 +27,7 @@ func main() {
 		panic(err)
 	}
 
-	// 获取集群信息
+	// 获取命名空间信息
 	nsl, err := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		panic(err)
