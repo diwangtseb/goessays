@@ -2,37 +2,53 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"math/rand"
 	"sync"
 	"sync/atomic"
 	"time"
 )
 
 func main() {
-	pool := NewGoPool(1)
+	pool := NewGoPool(100)
 	count := &atomic.Int32{}
-	for i := 0; i < 1000; i++ {
-		ctx := context.WithValue(context.Background(), "k->", i)
+	for i := 0; i < 100; i++ {
+		ctx := context.WithValue(context.Background(), DEFAULT_CTX_KEY_XX, tostr(i))
 		// ctx, cancel := context.WithTimeout(ctx, time.Second*1)
 		go pool.Go(func(ctx context.Context, args ...interface{}) {
+
 			// defer cancel()
 			fmt.Println(args)
-			if args[0].(int) == 100 {
-				fmt.Println("-------------------------", i)
-				f := func(ctx context.Context) {
-					time.Sleep(time.Second * 2)
-					fmt.Println(ctx.Err())
-				}
-				f(ctx)
+			if args[0].(int)%2 == 0 {
+				fmt.Println("-------------------------", tostr(args[0].(int)))
+
+				ran := 3 + rand.Int31n(5)
+				time.Sleep(time.Second * time.Duration(ran))
 			}
 			count.Add(1)
 		}, ctx, i, count)
 	}
 
-	time.Sleep(time.Second * 5)
-	fmt.Println(count)
+	// time.Sleep(time.Second * 5)
+	// fmt.Println(count)
+	// pre := time.Now().Add(time.Second * 5)
+	for {
+		if len(pool.semaphore) == 0 {
+			fmt.Println("return pre当前线程池数量----", len(pool.semaphore))
+			return
+		}
+		time.Sleep(time.Millisecond * 500)
+		fmt.Println("current 当前线程池数量----", len(pool.semaphore))
+		// if time.Now().After(pre) {
+		// 	fmt.Println("break 当前线程池数量----", len(pool.semaphore))
+		// 	break
+		// }
+	}
 }
+
+type Key string
+
+const DEFAULT_CTX_KEY_XX Key = Key("xx")
 
 type GoPool struct {
 	pool        *sync.Pool
@@ -43,54 +59,46 @@ type GoPool struct {
 func NewGoPool(maxRNum int) *GoPool {
 	return &GoPool{
 		pool: &sync.Pool{New: func() interface{} {
-			ch := make(chan bool)
-			go func() {
-				defer close(ch)
-				for {
-					select {
-					case <-ch:
-						return
-					default:
-						time.Sleep(time.Millisecond * 100)
-					}
-				}
-			}()
-			return ch
+			return make(chan struct{}, 1)
 		}},
 		semaphore:   make(chan struct{}, maxRNum),
 		maxRoutines: maxRNum,
 	}
 }
 
-func (gp *GoPool) Go(f func(ctx context.Context, args ...interface{}), ctx context.Context, args ...interface{}) {
-	ctx, cancel := context.WithTimeout(ctx, time.Second*1)
-	gp.semaphore <- struct{}{}
-	ch := gp.pool.Get().(chan bool) // 获取一个可用的goroutine
-	go func() {
-		defer cancel()
-		defer func() {
-			gp.pool.Put(ch) // 将不再使用的goroutine放回对象池中
-			if err := recover(); err != nil {
-				fmt.Println("panic ->", err)
-			}
-		}()
-
-		f(ctx, args...) // 执行任务
-		for {
-			select {
-			case <-ctx.Done():
-				v := ctx.Value("k->")
-				r := tostr(v.(int))
-				inErr := errors.New("goroutine num -> " + r + "\n")
-				outErr := errors.Join(ctx.Err(), inErr)
-				panic(outErr)
-			default:
-				ch <- true
-				return
-			}
+func (gp *GoPool) worker(ctx context.Context, f func(context.Context, ...interface{}), args ...interface{}) {
+	ch := gp.pool.Get().(chan struct{})
+	defer func() {
+		<-gp.semaphore
+		<-ch
+		gp.pool.Put(ch)
+		if err := recover(); err != nil {
+			fmt.Println("<GoPool> panic", err)
 		}
 	}()
-	<-gp.semaphore
+
+	f(ctx, args...)
+	select {
+	case <-ctx.Done():
+		var errstr string
+		v := ctx.Value(DEFAULT_CTX_KEY_XX)
+		if ctxVal, ok := v.(string); ok {
+			errstr += ctxVal
+		}
+		outErr := fmt.Errorf("%v: %v", ctx.Err(), errstr)
+		panic(outErr)
+	default:
+		ch <- struct{}{}
+		statCurrentRoutineNum(len(gp.semaphore))
+	}
+}
+func statCurrentRoutineNum(num int) {
+	fmt.Printf("current run goroutine num is %d\n", num)
+}
+
+func (gp *GoPool) Go(f func(context.Context, ...interface{}), ctx context.Context, args ...interface{}) {
+	gp.semaphore <- struct{}{}
+	go gp.worker(ctx, f, args...)
 }
 
 func tostr[T int | uint](t T) string {
