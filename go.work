@@ -4,6 +4,7 @@ use (
 	./concurrency
 	./design-pattern
 	./gapi
+	./k8s
 	./limiter
 	./memdec
 	./monetary-system
