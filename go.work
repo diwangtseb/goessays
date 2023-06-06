@@ -17,6 +17,7 @@ use (
 	./sgrpc
 	./srpc
 	./statusmachine
+	./strategy
 	./stream
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
