@@ -21,7 +21,11 @@ func main() {
 					rule:     "level < 3 && time >100",
 					weight:   0.1,
 					variable: map[string]interface{}{"level": 1, "time": 50},
-					delay:    2,
+					conditons: map[string]interface{}{
+						"level": "3",
+						"time":  100,
+					},
+					delay: 2,
 				},
 				{
 					id:       2,
@@ -46,7 +50,10 @@ func main() {
 					rule:     "time<=7",
 					weight:   0.1,
 					variable: map[string]interface{}{"time": 7},
-					delay:    48,
+					conditons: map[string]interface{}{
+						"time": 7,
+					},
+					delay: 48,
 				},
 			},
 		},
@@ -83,11 +90,12 @@ type strategygroup struct {
 }
 
 type strategy struct {
-	id       int
-	pid      int
-	name     string
-	rule     string
-	weight   float32
-	variable map[string]interface{}
-	delay    float32
+	id        int
+	pid       int
+	name      string
+	rule      string
+	weight    float32
+	variable  map[string]interface{}
+	conditons map[string]interface{}
+	delay     float32
 }
