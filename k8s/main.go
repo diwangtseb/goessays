@@ -1,38 +1,58 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"fmt"
-
 	"os"
+	"path/filepath"
 
-	"golang.org/x/net/context"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
 func main() {
-	// 获取 kubeconfig 文件路径
-	kubeconfig := os.Getenv("KUBE_CONFIG")
-
-	// 使用 kubeconfig 创建一个 Config 对象
-	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	var kubeconfig *string
+	if home := homeDir(); home != "" {
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+	} else {
+		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+	}
+	flag.Parse()
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
-	// 使用 Config 创建 Kubernetes 的客户端
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
-	// 获取命名空间信息
-	nsl, err := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+	namespace := "default"
+	deploymentName := "your-deployment-name"
+
+	// 通过ClientSet获取Deployment资源对象
+	deploymentObj, err := clientset.AppsV1().Deployments(namespace).Get(context.Background(), deploymentName, metav1.GetOptions{})
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// 修改Deployment的replicas数目达到重启Pod的目的
+	*deploymentObj.Spec.Replicas--
+
+	_, err = clientset.AppsV1().Deployments(namespace).Update(context.Background(), deploymentObj, metav1.UpdateOptions{})
 	if err != nil {
 		panic(err)
 	}
-	for _, ns := range nsl.Items {
-		fmt.Printf("Namespace name: %s\n", ns.ObjectMeta.Name)
+
+	fmt.Println("Deployment has been updated to trigger a rolling restart...")
+}
+
+func homeDir() string {
+	if h := os.Getenv("HOME"); h != "" {
+		return h
 	}
+	return os.Getenv("USERPROFILE") // windows
 }
