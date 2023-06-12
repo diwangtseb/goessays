@@ -5,4 +5,3 @@
 - [x] Thin channeling 
 - [x] cccca
 - [x] relax 
-- [x] cc
