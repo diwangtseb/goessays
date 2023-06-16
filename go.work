@@ -9,6 +9,7 @@ use (
 	./memdec
 	./monetary-system
 	./myrpc
+	./mysql-press
 	./mywire
 	./progress-bar
 	./questions
