@@ -9,6 +9,8 @@ func main() {
 	fmt.Println(r)
 	r = maxSubArray([]int{1, -2, 4, 3, -1, 0})
 	fmt.Println(r)
+	r = maxSubSequenceCount([]int{1, 2, 5, 4, 7})
+	fmt.Println(r)
 }
 
 // min coins equal target coin in pockets
@@ -59,4 +61,57 @@ func maxSubArray(nums []int) int {
 		}
 	}
 	return ans
+}
+
+// max sub sequence count
+// 1. 确定问题的最优子结构
+// 2. 定义状态空间
+// 3. 找到状态转移方程
+// 4. 确定边界条件
+// 5. 计算状态值
+func maxSubSequenceCount(nums []int) int {
+	n := len(nums)
+	// 边界状态
+	if n <= 1 {
+		return n
+	}
+	// 定义状态空间
+	dp := make([]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = 1
+	}
+	count := make([]int, n)
+	for i := 0; i < n; i++ {
+		count[i] = 1
+	}
+	// 最优子结构
+	for i := 1; i < n; i++ {
+		for j := 0; j < i; j++ {
+			// 状态方程
+			if nums[j] < nums[i] {
+				if dp[j]+1 > dp[i] {
+					// 计算状态值
+					dp[i] = dp[j] + 1
+					count[i] = count[j]
+				} else {
+					if dp[j]+1 == dp[i] {
+						count[i] += count[j]
+					}
+				}
+			}
+		}
+	}
+	max := 0
+	for i := 0; i < len(dp); i++ {
+		if dp[i] >= max {
+			max = dp[i]
+		}
+	}
+	res := 0
+	for i := 0; i < n; i++ {
+		if dp[i] == max {
+			res += count[i]
+		}
+	}
+	return res
 }
