@@ -11,6 +11,8 @@ func main() {
 	fmt.Println(r)
 	r = maxSubSequenceCount([]int{1, 2, 5, 4, 7})
 	fmt.Println(r)
+	r = stepProblem(3)
+	fmt.Println(r)
 }
 
 // min coins equal target coin in pockets
@@ -114,4 +116,23 @@ func maxSubSequenceCount(nums []int) int {
 		}
 	}
 	return res
+}
+
+// step problem
+// case: n = 10, step 1 or 2,there are several ways
+// 1. 确定问题的最优子结构
+// 2. 定义状态空间
+// 3. 找到状态转移方程
+// 4. 确定边界条件
+// 5. 计算状态值
+func stepProblem(n int) (count int) {
+	if n <= 2 {
+		return n
+	}
+	dp := make([]int, n+1)
+	for i := 3; i < n+1; i++ {
+		dp[1], dp[2] = 1, 2
+		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
 }
