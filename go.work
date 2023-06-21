@@ -20,6 +20,7 @@ use (
 	./statusmachine
 	./strategy
 	./stream
+	./wasm
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
 )
