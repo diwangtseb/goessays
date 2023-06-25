@@ -13,6 +13,8 @@ func main() {
 	fmt.Println(r)
 	r = stepProblem(3)
 	fmt.Println(r)
+	r = advanceProblem(4)
+	fmt.Println(r)
 }
 
 // min coins equal target coin in pockets
@@ -133,6 +135,18 @@ func stepProblem(n int) (count int) {
 	for i := 3; i < n+1; i++ {
 		dp[1], dp[2] = 1, 2
 		dp[i] = dp[i-1] + dp[i-2]
+	}
+	return dp[n]
+}
+
+func advanceProblem(n int) (count int) {
+	if n <= 2 {
+		return n
+	}
+	dp := make([]int, n+1)
+	dp[0], dp[1], dp[2] = 1, 1, 2
+	for i := 3; i <= n; i++ {
+		dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
 	}
 	return dp[n]
 }
