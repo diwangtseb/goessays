@@ -3,4 +3,5 @@
 - [x] effective validation is important
 - [x] expect very important
 - [x] Thin channeling 
-- [x] linkerd 
+- [x] linkerd
+- [x] play 
