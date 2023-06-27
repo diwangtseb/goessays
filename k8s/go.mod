@@ -3,7 +3,7 @@ module k8s
 go 1.20
 
 require (
-	golang.org/x/net v0.8.0
+	golang.org/x/net v0.8.0 // indirect
 	k8s.io/apimachinery v0.27.2
 	k8s.io/client-go v0.27.2
 )
