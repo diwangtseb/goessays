@@ -24,6 +24,7 @@ func main() {
 	docs := []Document{
 		{ID: "1", Text: "Hello world"},
 		{ID: "2", Text: "Foo bar"},
+		{ID: "3", Text: "world Hello"},
 	}
 
 	for _, doc := range docs {
