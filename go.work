@@ -16,6 +16,7 @@ use (
 	./questions
 	./rocketmq
 	./rule
+	./search
 	./sgrpc
 	./srpc
 	./statusmachine
