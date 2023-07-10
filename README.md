@@ -6,6 +6,3 @@
 - [x] linkerd
 - [x] play
 - [x] fp
-- [x] lll 
-- [x] cccc
-- [x] update readme
