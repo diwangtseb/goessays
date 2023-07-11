@@ -7,14 +7,38 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
+	wg := sync.WaitGroup{}
+	c := make(chan struct{})
 	for i := 0; i < 10; i++ {
-		time.Sleep(time.Second * 1)
 		wg.Add(1)
-		go func(i int) {
-			fmt.Println("goroutine num is ", i)
-			wg.Add(-1) //replace wg.Done()
-		}(i)
+		go func(num int, close <-chan struct{}) {
+			fmt.Printf("%p\n", &close)
+			defer wg.Done()
+			v, ok := <-close
+			fmt.Println(v, ok, num)
+		}(i, c)
 	}
-	wg.Wait()
+
+	if WaitTimeout(&wg, time.Second*5) {
+		close(c)
+		fmt.Printf("timeout exit \n")
+	}
+	time.Sleep(time.Second * 10)
+}
+
+func WaitTimeout(wg *sync.WaitGroup, timeout time.Duration) bool {
+	ch := make(chan struct{})
+	tch := time.After(timeout)
+	go func(wg *sync.WaitGroup) {
+		defer func() {
+			ch <- struct{}{}
+		}()
+		wg.Wait()
+	}(wg)
+	select {
+	case <-ch:
+		return false
+	case <-tch:
+		return true
+	}
 }
