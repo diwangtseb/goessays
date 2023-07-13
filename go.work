@@ -25,4 +25,5 @@ use (
 	./wasm
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
+	./ds
 )
