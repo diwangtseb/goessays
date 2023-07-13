@@ -6,4 +6,3 @@
 - [x] linkerd
 - [x] play
 - [x] fp
-- [x] cao
