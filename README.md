@@ -5,4 +5,4 @@
 - [x] Thin channeling 
 - [x] linkerd
 - [x] play
-- [x] fp
+- [x] fp and oop
