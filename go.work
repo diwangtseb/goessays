@@ -4,6 +4,7 @@ use (
 	./cluster
 	./concurrency
 	./design-pattern
+	./ds
 	./gapi
 	./k8s
 	./limiter
@@ -22,8 +23,8 @@ use (
 	./statusmachine
 	./strategy
 	./stream
+	./tasks
 	./wasm
 	./websocketdemo/websocket
 	./websocketdemo/wsbinary
-	./ds
 )
