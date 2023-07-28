@@ -20,6 +20,8 @@ type Task struct {
 	Week       int
 	Day        int
 	Hour       int
+	Minute     int
+	Sec        int
 	Times      int
 }
 
@@ -32,7 +34,7 @@ func (t *Task) initSRTNRT() {
 		now := time.Now()
 		daysUntilNextday := t.Day - int(now.Weekday()) + 7
 		nextday := now.AddDate(0, 0, daysUntilNextday)
-		next := time.Date(nextday.Year(), nextday.Month(), nextday.Day(), t.Hour, 0, 0, 0, nextday.Location())
+		next := time.Date(nextday.Year(), nextday.Month(), nextday.Day(), t.Hour, t.Minute, t.Sec, 0, nextday.Location())
 		t.NRt = next
 	default:
 		t.NRt = time.Date(2099, 99, 0, 0, 0, 0, 0, time.Local)
@@ -48,7 +50,7 @@ func (t *Task) RefreshSRTNRT() {
 		now := time.Now()
 		daysUntilNextday := t.Day - int(now.Weekday()) + 7
 		nextday := now.AddDate(0, 0, daysUntilNextday)
-		next := time.Date(nextday.Year(), nextday.Month(), nextday.Day(), t.Hour, 0, 0, 0, nextday.Location())
+		next := time.Date(nextday.Year(), nextday.Month(), nextday.Day(), t.Hour, t.Minute, t.Sec, 0, nextday.Location())
 		t.NRt = next
 	default:
 		t.NRt = time.Date(2099, 99, 0, 0, 0, 0, 0, time.Local)
@@ -67,7 +69,7 @@ func NewTask() *Task {
 		NRt:        time.Date(2023, 7, 27, 19, 0, 0, 0, time.Local),
 		FixedTime:  time.Time{},
 		Week:       1,
-		Day:        2,
+		Day:        1,
 		Times:      3,
 	}
 	task.initSRTNRT()
