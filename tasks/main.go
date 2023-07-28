@@ -95,13 +95,13 @@ type UserEvent struct {
 }
 
 func main() {
-	newTask := NewTask()
-	fmt.Println(newTask)
+	// newTask := NewTask()
+	// fmt.Println(newTask)
 	// create a user
 	ue := &UserEvent{
 		UID: 1,
 		Key: "event_acc",
-		Val: 100,
+		Val: 120,
 	}
 	doTask(ue)
 	ue2 := &UserEvent{
@@ -129,6 +129,12 @@ func main() {
 		Val: 40,
 	}
 	doTask(ue5)
+	ue6 := &UserEvent{
+		UID: 1,
+		Key: "event_acc",
+		Val: 40,
+	}
+	doTask(ue6)
 	for k, v := range userTaskRecordMap {
 		for _, v1 := range v {
 			fmt.Println(k, v1)
@@ -184,11 +190,16 @@ func doTask(ue *UserEvent) {
 			return userTaskRecord[i].CreateAt.Sub(task.SRt) > 0
 		})
 		times := 0
+		borrow := 0
 		for _, v := range userTaskRecord {
 			if v.Status {
 				times++
+				borrow += (v.TaskVal - 100)
+				v.TaskVal -= borrow
 			}
 		}
+		ueValInt := ue.Val.(int)
+		ueValInt += borrow
 		if times >= task.Times {
 			return
 		}
@@ -203,7 +214,7 @@ func doTask(ue *UserEvent) {
 		if len(userTaskRecord) == 0 {
 			eval := goval.NewEvaluator()
 			m := map[string]interface{}{
-				ue.Key: ue.Val,
+				ue.Key: ueValInt,
 			}
 			result, err := eval.Evaluate(task.Rule.Content, m, nil)
 			if err != nil {
@@ -216,7 +227,7 @@ func doTask(ue *UserEvent) {
 				}
 				saveUserTaskRecord(ue.UID, &UserTaskRecord{
 					TaskId:   ue.UID,
-					TaskVal:  ue.Val.(int),
+					TaskVal:  ueValInt,
 					Status:   status,
 					CreateAt: time.Now(),
 					UpdateAt: time.Now(),
@@ -226,7 +237,7 @@ func doTask(ue *UserEvent) {
 		}
 		latest := userTaskRecord[len(userTaskRecord)-1]
 		eval := goval.NewEvaluator()
-		total := ue.Val.(int) + latest.TaskVal
+		total := ueValInt + latest.TaskVal
 		m := map[string]interface{}{
 			ue.Key: total,
 		}
