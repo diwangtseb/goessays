@@ -8,4 +8,3 @@
 - [x] fp and oop
 - [x] double ptr
 - [x] anthing
-- [x] dododo 
