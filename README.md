@@ -7,4 +7,3 @@
 - [x] play
 - [x] fp and oop
 - [x] double ptr
-- [x] anthing
