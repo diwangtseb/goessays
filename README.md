@@ -4,4 +4,4 @@
 - [x] expect very important
 - [x] Thin channeling 
 - [x] linkerd
-- [x] play
+- [x] player
