@@ -4,4 +4,3 @@
 - [x] expect very important
 - [x] Thin channeling 
 - [x] linker
-- [x] cc
