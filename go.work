@@ -1,10 +1,11 @@
-go 1.19
+go 1.21.1
 
 use (
 	./cluster
 	./concurrency
 	./design-pattern
 	./ds
+	./event-engine
 	./gapi
 	./k8s
 	./limiter
